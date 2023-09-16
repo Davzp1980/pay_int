@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  pay-app:
+    container_name: pay_int
+    image: dav1980/pay_int:2
+    build: .
+    environment:
+      DATABASE_URL: "host=pay_db user=postgres password=1 dbname=mydb sslmode=disable"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - pay_db
+  pay_db:
+    container_name: pay_int_db
+    image: postgres:12
+    environment:
+      POSTGRES_PASSWORD: 1
+      POSTGRES_USER: postgres
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  
+volumes:  
+  pgdata: {}
